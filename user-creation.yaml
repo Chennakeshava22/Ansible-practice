@@ -1,0 +1,29 @@
+---
+- name: user creation named DEPLOY
+  hosts: server1
+  become: true
+  tasks:
+    - name: create group
+      group:
+        name: devops
+        state: present
+      tags: create 
+    - name: use module create user
+      user:
+        name: deploy
+        comment: new user
+        uid: 1007
+        group: devops
+      tags: create
+    - name: deleting user
+      user:
+        name: deploy
+        state: absent
+        remove: yes
+      tags: delete
+    - name: delete group
+      group:
+        name: devops
+        state: absent
+      tags: delete
+
