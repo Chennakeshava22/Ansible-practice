@@ -1,0 +1,13 @@
+---
+- name : working with ansible
+  hosts: dev
+  become: true
+  tasks:
+    - name: moving a file from controller to the remote server
+      copy:
+        src: ./ansiblehosts
+        dest: /tmp/
+        owner: root
+        group: root
+
+
