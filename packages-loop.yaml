@@ -1,0 +1,23 @@
+---
+- name: working with ansible
+  hosts: dev
+  become: true
+  tasks:
+    - name: loop the packages
+      package:
+        name: "{{item}}"
+        state: present
+      loop:
+        - httpd
+        - nginx
+        - git
+        - vim
+      tags: install
+    - name: delete packages
+      package:
+        name:
+          - httpd
+          - nginx
+          - git
+          - vim
+      tags: delete

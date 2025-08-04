@@ -1,0 +1,29 @@
+---
+- name: working with ansible
+  hosts: server1
+  become: true
+  tasks:
+    - name: working with file permissions
+      file:
+        path: /tmp/chenna
+        state: directory
+        mode: '0755'
+      tags: create
+    - name: create a file
+      file:
+        path: /tmp/chenna/file.txt
+        state: touch
+        mode: u=rw,g=r,o=r
+      tags: create
+    - name: file permissions
+      file:
+        path: /tmp/chenna/file.txt
+        state: touch
+        mode: u=r,g=rw,o=r
+      tags: permission
+    - name: delete the directory
+      file:
+        path: /tmp/chenna
+        state: absent
+      tags: delete
+

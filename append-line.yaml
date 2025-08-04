@@ -1,0 +1,16 @@
+---
+- name: working with ansible
+  hosts: all
+  become: true
+  tasks:
+    - name: creating file
+      file:
+        path: /tmp/text.txt
+        state: touch
+        mode: u=rw,g=r,o=r
+      tags: create
+    - name: working with file
+      lineinfile:
+        path: /tmp/text.txt
+        line: "hii hello welcome to my world"
+

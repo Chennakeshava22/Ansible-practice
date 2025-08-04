@@ -1,0 +1,46 @@
+---
+- name: working with ansible
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Apache and wget
+      package:
+        name:
+          - httpd
+          - wget
+        state: present
+
+    - name: Start and enable 
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: add /var/www/html 
+      file:
+        path: /var/www/html
+        state: directory
+        mode: '0755'
+
+    - name: Download files
+      get_url:
+        url: https://www.tooplate.com/zip-templates/2137_barista_cafe.zip
+        dest: /tmp/2137_barista_cafe.zip
+        owner: root
+        mode: '0644'
+
+    - name: Unzip template to /tmp/2137_barista_cafe
+      unarchive:
+        src: /tmp/2137_barista_cafe.zip
+        dest: /tmp/2137_barista_cafe
+        remote_src: yes
+
+    - name: Copy files to /var/www/html
+      shell: cp -r /tmp/2137_barista_cafe/2137_barista_cafe/* /var/www/html/
+      args:
+        removes: /tmp/2137_barista_cafe
+
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
